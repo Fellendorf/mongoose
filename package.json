@@ -4,12 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon ./bin/index.js",
+    "prod": "node ./bin/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.7.2",
     "mongoose": "^7.4.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }

@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./bin/index.js",
-    "prod": "node ./bin/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prod": "node ./bin/index.js"
   },
   "type": "module",
   "keywords": [],
@@ -20,3 +19,4 @@
     "nodemon": "^3.0.1"
   }
 }
+

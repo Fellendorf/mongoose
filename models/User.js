@@ -7,7 +7,7 @@ const userSchema = new Schema(
     age: {
       type: Number,
       required: true,
-      min: 18,
+      min: 1,
       max: 80,
     },
     email: {
@@ -32,14 +32,62 @@ const userSchema = new Schema(
     },
   },
   {
-    // custom method of the model instance:
+    // custom "method" function of the model instance
+    // https://mongoosejs.com/docs/guide.html#methods
     methods: {
-      sayHi: function () {
+      sayHi() {
         console.log(`Hi! My name is ${this.name.first} ${this.name.last}`);
+      },
+      sayUpdated() {
+        console.log(
+          `User ${this.name.first} ${this.name.last} was created/updated`
+        );
+      },
+    },
+    // custom "static" function of the model
+    // https://mongoosejs.com/docs/guide.html#statics
+    statics: {
+      findByFirstName(firstName) {
+        return this.findOne().where("name.first").equals(firstName);
+      },
+    },
+    // custom "query helper" function of the model
+    // https://mongoosejs.com/docs/guide.html#query-helpers
+    query: {
+      byFirstName(firstName) {
+        return this.findOne().where("name.first").equals(firstName);
+      },
+    },
+    // custom "virtual" property of the model instance
+    // https://mongoosejs.com/docs/guide.html#virtuals
+    virtuals: {
+      fullName: {
+        get() {
+          return `${this.name.first} ${this.name.last}`;
+        },
+      },
+      emailedName: {
+        get() {
+          return `${this.name.first} ${this.name.last} <${this.email}>`;
+        },
       },
     },
   }
 );
+
+// "pre" middleware on "save"
+// https://mongoosejs.com/docs/middleware.html#pre
+userSchema.pre("save", function (next) {
+  this.updatedAt = Date.now();
+  next();
+});
+
+// "post" middleware on "save"
+// https://mongoosejs.com/docs/middleware.html#post
+userSchema.post("save", (doc, next) => {
+  doc.sayUpdated();
+  next();
+});
 
 export const User = model("User", userSchema);
 

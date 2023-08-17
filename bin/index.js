@@ -20,13 +20,9 @@ await User.deleteMany({});
 
 // insert users in the database
 await Promise.mapSeries(users, (user, i) =>
-  User.create(user)
-    .then(() => {
-      console.log(`User N${i} was inserted`);
-    })
-    .catch((e) => {
-      console.log(`User N${i} wasn't inserted. Reason: ${e.message}`);
-    })
+  User.create(user).catch((e) => {
+    console.log(`User N${i + 1} wasn't inserted. Reason: ${e.message}`);
+  })
 );
 
 // get a user using JSON doc (standard mongo queries syntax)
@@ -48,7 +44,25 @@ const katrin = await User.findOne({})
   .gt(18)
   .lt(66);
 
-// use a custom method of the model instance
+// use a custom "method" function of the model instance
 artsiom.sayHi();
 katrin.sayHi();
+
+// use a custom "static" function of the model class
+const anfisa = await User.findByFirstName("Anfisa");
+anfisa.sayHi();
+
+// use a custom "query helper" function of the model class
+const tihon = await User.find().byFirstName("Tihon");
+tihon.sayHi();
+
+// use a custom "virtual" property of the model instance
+console.log(artsiom.fullName);
+console.log(katrin.emailedName);
+
+// change user and "save" it (middleware usage)
+artsiom.email = "artsiom@google.com";
+await artsiom.save();
+
+process.exit();
 

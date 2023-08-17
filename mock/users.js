@@ -5,7 +5,8 @@ export const users = [
       last: "Finenka",
     },
     age: 38,
-    email: "AFINENKA@mail.com", // will be converted to lowercase (according to the userSchema)
+    // will be converted to lowercase (according to the userSchema)
+    email: "AFINENKA@mail.com",
   },
   {
     name: {
@@ -23,6 +24,14 @@ export const users = [
     age: 34,
     email: "katrin@mail.com",
   },
+  {
+    name: {
+      first: "Tihon",
+      last: "Cat",
+    },
+    age: 13,
+    email: "tihon@mail.com",
+  },
   // Will not pass validation:
   {
     name: {
@@ -34,7 +43,7 @@ export const users = [
       first: "Alex",
       last: "Finenka",
     },
-    age: 17,
+    age: 0,
     email: "alex@mail.com",
   },
   {
